@@ -1,9 +1,19 @@
+const express = require("express")
+const app = express()
+const port = 3000
 const request = require('request');
-request('https://api.openweathermap.org/data/2.5/weather?q=dhanbad&units=metric&appid=991303112a9849a51fe95dd0e32e7434', function (error, response, body) {
-  // console.error('error:', error); // Print the error if one occurred
-  // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  var pD = JSON.parse(body)
-  console.log('body:', pD["main"]["temp"]); // Print the HTML for the Google homepage.
-});
 
+
+app.get("/results", function(req, res){  
+  request('https://api.openweathermap.org/data/2.5/weather?q=dhanbad&units=metric&appid=991303112a9849a51fe95dd0e32e7434', function (error, response, body) {
+    var pD = JSON.parse(body)
+    res.send(String(pD["main"]["temp"]));
+  });
+})
+//pD["main"]["temp"]
 // https://api.openweathermap.org/data/2.5/weather?q=dhanbad&appid=991303112a9849a51fe95dd0e32e7434
+
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
